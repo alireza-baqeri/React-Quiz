@@ -1,7 +1,16 @@
-import DateCounter from "./DateCounter";
+import Header from "./Header"
+import Main from "./Main"
+// import DateCounter from "./DateCounter";
 
 export default function App() {
-  return <div>
-    <DateCounter/>
+  return <div className="app">
+    <Header />
+    
+
+    <main className="main">
+    <Main/>
+    </main>
+    
+    {/* <DateCounter/> */}
   </div>
-}
+} 
