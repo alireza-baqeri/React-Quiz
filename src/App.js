@@ -4,6 +4,7 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
+import Question from "./Question";
 // import { type } from "@testing-library/user-event/dist/type";
 // import DateCounter from "./DateCounter";
 
@@ -11,6 +12,7 @@ const initialState = {
   questions: [],
   // "loading", 'error','ready', 'active', 'finished'
   status: "loading",
+  index:0,
 };
 
 function reducer(state, action) {
@@ -26,13 +28,15 @@ function reducer(state, action) {
         ...state,
         status: "error",
       };
+    case 'start':
+      return {...state,status:'active'}
     default:
       throw new Error("Unknown Action");
   }
 }
 
 export default function App() {
-  const [{questions,status}, dispatch] = useReducer(reducer, initialState);
+  const [{questions,status,index}, dispatch] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
 
@@ -47,13 +51,16 @@ export default function App() {
     <div className="app">
       <Header />
       <Main>
+
         {status === "loading" && <Loader />}
 
         {status === "error" && <Error />}
 
-        {status === "ready" && <StartScreen numQuestions={numQuestions} />}
-      
-      
+        {status === "ready" && (
+          <StartScreen numQuestions={numQuestions} dispatch={dispatch}/>)}
+
+        {status === "active" && <Question question={questions[index]} />}
+
       </Main>
       {/* <DateCounter/> */}
     </div>
