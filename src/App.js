@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
-import { type } from "@testing-library/user-event/dist/type";
+// import { type } from "@testing-library/user-event/dist/type";
 // import DateCounter from "./DateCounter";
 
 const initialState = {
@@ -18,11 +18,11 @@ function reducer(state, action) {
         question: action.payload,
         status: "ready",
       };
-    case 'dataFailed':
+    case "dataFailed":
       return {
         ...state,
         status: "error",
-      }
+      };
     default:
       throw new Error("Unknown Action");
   }
@@ -35,11 +35,11 @@ export default function App() {
     fetch("http://localhost:8000/questions")
       .then((res) => res.json())
       .then((data) => dispatch({ type: "dataReceived", payload: data }))
-      .catch((err) => dispatch({ type: 'dataFailed' }))}, []);
+      .catch((err) => dispatch({ type: "dataFailed" }));
+  }, []);
 
   return (
     <div className="app">
-
       <Header />
       <Main>
         <p>1/15</p>
