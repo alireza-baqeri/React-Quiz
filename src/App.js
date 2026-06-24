@@ -1,6 +1,9 @@
 import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
+import Loader from "./Loader";
+import Error from "./Error";
+import StartScreen from "./StartScreen";
 // import { type } from "@testing-library/user-event/dist/type";
 // import DateCounter from "./DateCounter";
 
@@ -29,7 +32,7 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{quest,status}, dispatch] = useReducer(reducer, initialState);
 
   useEffect(function () {
     fetch("http://localhost:8000/questions")
@@ -42,8 +45,13 @@ export default function App() {
     <div className="app">
       <Header />
       <Main>
-        <p>1/15</p>
-        <p>Question?</p>
+        
+        {status === 'loading' && <Loader />}
+        
+        {status === 'error' && <Error />}
+
+        {status === 'ready' && <StartScreen/>}
+        
       </Main>
       {/* <DateCounter/> */}
     </div>
