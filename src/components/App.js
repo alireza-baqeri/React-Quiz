@@ -5,8 +5,9 @@ import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
 import Question from "./Question";
-import NextButton from "./NextQuestion";
+import NextButton from "./NextButton";
 import Progress from "./Progress"
+import FinishScreen from "./FinishScreen";
 // import { type } from "@testing-library/user-event/dist/type";
 // import DateCounter from "./DateCounter";
 
@@ -44,8 +45,10 @@ function reducer(state, action) {
             ? state.points + 1
             : state.points,
       };
-      case 'nextQuestion':
-        return {...state,index: state.index + 1,answer:null}
+    case 'nextQuestion':
+      return { ...state, index: state.index + 1, answer: null };
+    case 'finish':
+      return {...state,status:"finished"}
     default:
       throw new Error("Unknown Action");
   }
@@ -93,11 +96,18 @@ export default function App() {
               dispatch={dispatch}
               answer={answer}
             />
-            <NextButton dispatch={dispatch} answer={answer} />
+            <NextButton
+              dispatch={dispatch}
+              answer={answer}
+              index={index}
+              numQuestions={numQuestions}
+            />
           </>
         )}
+        {status === "finished" && (
+          <FinishScreen points={points} maxPossiblePoints={maxPossiblePoints} />
+        )}
       </Main>
-      {/* <DateCounter/> */}
     </div>
   );
 }
